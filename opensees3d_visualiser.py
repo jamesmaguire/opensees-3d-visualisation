@@ -16,7 +16,7 @@ nodeFile = './example/example-model.tcl'  # tcl file which defines nodes
 elemFile = './example/example-model.tcl'  # tcl file which defines elements
 dispFile = './example/example-disps.out'  # output containing node disp data
 fig = pl.figure(figsize=(10, 10))
-sysc_time = 1 # time between viewer refresh (in seconds)
+sysc_time = 1 #  time to synchronize model's script (in seconds)
 ''' TCL READER
 This function reads the files and extracts lines which begin with the
 startwith argument. n_cols tells the reader how many columns to extract
