@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy  as np
 import matplotlib.pyplot as pl
+import matplotlib.animation as animation
 from mpl_toolkits.mplot3d import Axes3D
 
 ''' INPUT FILES
@@ -11,11 +12,11 @@ or the full path should be provided
 *Note: Node coordinates must be explicitly defined. If nodes are created
 using loops, the script will not identify them
 '''
-nodeFile = 'example/exampleModel.tcl'  # tcl file which defines nodes
-elemFile = 'example/exampleModel.tcl'  # tcl file which defines elements
-dispFile = 'example/exampleNodeDisps.out'  # output containing node disp data
-
-
+nodeFile = './example/example-model.tcl'  # tcl file which defines nodes
+elemFile = './example/example-model.tcl'  # tcl file which defines elements
+dispFile = './example/example-disps.out'  # output containing node disp data
+fig = pl.figure(figsize=(10, 10))
+sysc_time = 1 #  time to synchronize model's script (in seconds)
 ''' TCL READER
 This function reads the files and extracts lines which begin with the
 startwith argument. n_cols tells the reader how many columns to extract
@@ -76,6 +77,7 @@ Set the scalefactor to scale the displacements
 Set the azimuth and elevation to control the viewing angle
 Set the step to view the timestep (1, 2, 3, ...)
 '''
+
 # Function to plot nodes
 def plotNodes(nodeCoords, nodeColour, nodeSize):
     x = nodeCoords[:,0]
@@ -95,6 +97,11 @@ def plotElements(elemList, nodeList, nodeCoords, lineColour, lineStyle,
                                 [nodeCoords[nodejRow,:]], axis=0)
             ax.plot(element[:,0], element[:,1], element[:,2], c=lineColour,
                     lw=lineThickness, ls=lineStyle)
+
+ani = animation.FuncAnimation(fig, plotElements, interval=sysc_time*1000,
+                                  fargs=(nodeFile,))
+ani = animation.FuncAnimation(fig, elemFile, interval=sysc_time*1000,
+                                  fargs=(elemFile,))
 
 # Set viewpoint, scalefactor for displacement and timestep
 scalefactor = 1
